@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/dl-fbx/static/css/main.34de6062.chunk.css",
+    "main.js": "/dl-fbx/static/js/main.5facfd90.chunk.js",
+    "main.js.map": "/dl-fbx/static/js/main.5facfd90.chunk.js.map",
+    "runtime-main.js": "/dl-fbx/static/js/runtime-main.025d5a09.js",
+    "runtime-main.js.map": "/dl-fbx/static/js/runtime-main.025d5a09.js.map",
+    "static/js/2.416364b5.chunk.js": "/dl-fbx/static/js/2.416364b5.chunk.js",
+    "static/js/2.416364b5.chunk.js.map": "/dl-fbx/static/js/2.416364b5.chunk.js.map",
+    "index.html": "/dl-fbx/index.html",
+    "precache-manifest.a03e465da4f2fb647e1a75fdced11520.js": "/dl-fbx/precache-manifest.a03e465da4f2fb647e1a75fdced11520.js",
+    "service-worker.js": "/dl-fbx/service-worker.js",
+    "static/css/main.34de6062.chunk.css.map": "/dl-fbx/static/css/main.34de6062.chunk.css.map",
+    "static/media/c110349_01.fbx": "/dl-fbx/static/media/c110349_01.bd712ffb.fbx",
+    "static/media/c110349_01.png": "/dl-fbx/static/media/c110349_01.cb5b2597.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.025d5a09.js",
+    "static/js/2.416364b5.chunk.js",
+    "static/css/main.34de6062.chunk.css",
+    "static/js/main.5facfd90.chunk.js"
+  ]
+}
