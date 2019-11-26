@@ -40,7 +40,7 @@ export default class ReactThreeVisor extends Component {
     // }
 
     animate = () => {
-        requestAnimationFrame(this.animate);
+        this.animation = requestAnimationFrame(this.animate);
         if (this.mixers.length > 0) {
             for (var i = 0; i < this.mixers.length; i++) {
                 this.mixers[i].update(this.clock.getDelta());
@@ -155,6 +155,15 @@ export default class ReactThreeVisor extends Component {
         this.init();
     }
 
+    componentWillUnmount() {
+        cancelAnimationFrame(this.animation);
+        this.mixers = null;
+        this.clock = null;
+        this.camera = null;
+        this.controls = null;
+        this.scene = null;
+        this.renderer = null;
+    }
     render() {
         return (
             <div ref={(el) => { this.container = el; }} />

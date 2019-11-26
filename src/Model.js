@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactThreeFbxViewer from './viewer';
+import ReactThreeFbxViewer from './Viewer';
 import { withRouter } from "react-router-dom";
 
 // let fbxUrl = require('./fbx/asd.fbx');
@@ -16,16 +16,12 @@ class Model extends React.Component {
             this.setState({ asset: this.props.match.params.asset });
         }
     }
-    onLoad(e) {
-        console.log(e);
-    }
-    onError(e) {
-        console.log(e);
-    }
+    onLoad(e) { }
+    onError(e) { }
     modelExists() {
         try {
-            require.resolve(`./fbx/${this.state.asset}.fbx`);
-            require.resolve(`./fbx/${this.state.asset}.png`);
+            require.resolve(`./fbx/${this.state.asset}/${this.state.asset}.fbx`);
+            require.resolve(`./fbx/${this.state.asset}/${this.state.asset}.png`);
             return true;
         } catch (e) {
             return false;
@@ -35,8 +31,8 @@ class Model extends React.Component {
         if (!this.modelExists()) {
             return <React.Fragment></React.Fragment>
         }
-        const model = require(`./fbx/${this.state.asset}.fbx`);
-        const texture = require(`./fbx/${this.state.asset}.png`);
+        const model = require(`./fbx/${this.state.asset}/${this.state.asset}.fbx`);
+        const texture = require(`./fbx/${this.state.asset}/${this.state.asset}.png`);
         const backgroundColor = 0x000000;
         const angle = 0;
         const near = 1;
