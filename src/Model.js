@@ -8,16 +8,25 @@ class Model extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            asset: this.props.match.params.asset
+            asset: null,
+            animationIdx: 1
         }
+        this.handleChange = this.handleChange.bind(this);
+    }
+    componentDidMount() {
+        this.setState({
+            asset: this.props.match.params.asset,
+            animationIdx: this.props.match.params.animationIdx
+        });
     }
     componentDidUpdate(prevProps) {
         if (this.props.location !== prevProps.location) {
-            this.setState({ asset: this.props.match.params.asset });
+            this.setState({
+                asset: this.props.match.params.asset,
+                animationIdx: this.props.match.params.animationIdx
+            });
         }
     }
-    onLoad(e) { }
-    onError(e) { }
     modelExists() {
         try {
             require.resolve(`./fbx/${this.state.asset}/${this.state.asset}.fbx`);
@@ -26,6 +35,11 @@ class Model extends React.Component {
         } catch (e) {
             return false;
         }
+    }
+    handleChange(e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
     }
     render() {
         if (!this.modelExists()) {
@@ -50,20 +64,21 @@ class Model extends React.Component {
             x: 0,
             y: 0,
             z: 0
-        }
+        };
         return (
-            <ReactThreeFbxViewer
-                model={model}
-                texture={texture}
-                backgroundColor={backgroundColor}
-                angle={angle}
-                near={near}
-                far={far}
-                viewport={viewport}
-                cameraPosition={cameraPosition}
-                controlsPosition={controlsPosition}
-                onLoading={this.onLoad}
-                onError={this.onError} />
+            <div>
+                <ReactThreeFbxViewer
+                    model={model}
+                    texture={texture}
+                    backgroundColor={backgroundColor}
+                    angle={angle}
+                    near={near}
+                    far={far}
+                    viewport={viewport}
+                    cameraPosition={cameraPosition}
+                    controlsPosition={controlsPosition}
+                    animationIdx={this.state.animationIdx - 1} />
+            </div>
         );
     }
 }

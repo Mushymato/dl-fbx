@@ -1,14 +1,10 @@
-/**
- * @class ExampleComponent
- */
-
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import * as THREE from 'three';
 let OrbitControls = require('three-orbit-controls')(THREE);
 let FBXLoader = require('three-fbxloader-offical');
 
-export default class ReactThreeVisor extends Component {
+export default class ReactThreeVisor extends React.Component {
     static propTypes = {
         model: PropTypes.string,
         texture: PropTypes.string,
@@ -113,11 +109,21 @@ export default class ReactThreeVisor extends Component {
                     this.mixers.push(object.mixer);
                 }
 
-                if (object.animations[0]) {
-                    let action = object.mixer.clipAction(object.animations[0]);
-                    action.play();
+                // CMN animations
+                if (this.props.animationIdx > -1) {
+                    const cmn = require(`./fbx/cmn.fbx`);
+                    loader.load(cmn, (obj) => {
+                        if (obj.animations[this.props.animationIdx]) {
+                            let action = object.mixer.clipAction(obj.animations[this.props.animationIdx]);
+                            action.play();
+                        }
+                    });
                 }
 
+                // if (object.animations[0]) {
+                //     let action = object.mixer.clipAction(object.animations[0]);
+                //     action.play();
+                // }
                 this.scene.add(object);
             }, (s) => {
                 this.handleLoad(s);
