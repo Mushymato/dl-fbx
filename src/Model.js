@@ -8,13 +8,12 @@ class Model extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            asset: this.props.match.params.id
+            asset: this.props.match.params.asset
         }
     }
     componentDidUpdate(prevProps) {
-        console.log(this.props.location);
         if (this.props.location !== prevProps.location) {
-            this.setState({ asset: this.props.match.params.id });
+            this.setState({ asset: this.props.match.params.asset });
         }
     }
     onLoad(e) {
