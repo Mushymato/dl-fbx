@@ -10,7 +10,7 @@ class ModelList extends React.Component {
             files: fn
         };
 
-        const wikiURL = 'https://dragalialost.gamepedia.com/api.php?action=cargoquery&format=json&limit=500&tables=Adventurers&fields=Id,VariationId,Name';
+        const wikiURL = 'https://dragalialost.gamepedia.com/api.php?action=cargoquery&format=json&limit=500&tables=Adventurers&fields=Id,VariationId,FullName';
         const request = new Request(wikiURL, {
             method: 'get',
             headers: {
@@ -25,8 +25,8 @@ class ModelList extends React.Component {
                     let newxIdMap = {};
                     for (let d of data.cargoquery) {
                         const id = d.title.Id;
-                        const vid = parseInt(d.title.VariationId) > 10 ? d.title.VariationId : `0${d.title.VariationId}`;
-                        const n = d.title.Name;
+                        const vid = parseInt(d.title.VariationId) >= 10 ? d.title.VariationId : `0${d.title.VariationId}`;
+                        const n = d.title.FullName;
                         newxIdMap[`c${id}_${vid}`] = n;
                     }
                     this.setState({ idMap: newxIdMap });
@@ -46,6 +46,10 @@ class ModelList extends React.Component {
         if (this.state.idMap !== undefined && this.state.idMap.hasOwnProperty(fn)) {
             return this.state.idMap[fn];
         } else {
+            if (this.state.idMap !== undefined && !this.state.idMap.hasOwnProperty(fn)) {
+                console.log(this.state.idMap);
+                console.log(fn);
+            }
             return fn;
         }
     };
@@ -55,7 +59,7 @@ class ModelList extends React.Component {
                 {
                     this.state.files.map(fn => {
                         return (
-                            <ul style={{ float: "left", width: "10%" }} key={fn}>
+                            <ul style={{ float: "left", width: "15%" }} key={fn}>
                                 <li><Link to={`/${fn}/0`}>{this.findName(fn)}</Link></li>
                                 <li><Link to={`/${fn}/1`}>{this.findName(fn)} Walk</Link></li>
                                 <li><Link to={`/${fn}/2`}>{this.findName(fn)} Bob</Link></li>
