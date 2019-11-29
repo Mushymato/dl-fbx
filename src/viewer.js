@@ -16,7 +16,8 @@ export default class ReactThreeVisor extends React.Component {
         far: PropTypes.number,
         near: PropTypes.number,
         onError: PropTypes.func,
-        onLoading: PropTypes.func
+        onLoading: PropTypes.func,
+        zoom: PropTypes.number
     };
 
     checkProps = () => {
@@ -27,6 +28,7 @@ export default class ReactThreeVisor extends React.Component {
         this.far = this.props.far || 2000;
         this.near = this.props.near || 1;
         this.lights = this.props.ligths || null;
+        this.zoom = this.props.zoom || 1;
     }
 
     // onWindowResize = () => {
@@ -52,6 +54,8 @@ export default class ReactThreeVisor extends React.Component {
         // Camera
         this.camera = new THREE.PerspectiveCamera(this.angle, this.viewport.width / this.viewport.height, this.near, this.far);
         this.camera.position.set(this.cameraPosition.x, this.cameraPosition.y, this.cameraPosition.z);
+        this.camera.zoom = this.zoom;
+        this.camera.updateProjectionMatrix();
 
         // Controls
         this.controls = new OrbitControls(this.camera);
@@ -62,7 +66,7 @@ export default class ReactThreeVisor extends React.Component {
         this.scene = new THREE.Scene();
         // this.scene.background = new THREE.Color(this.props.backgroundColor);
         this.scene.background = new THREE.Color(0xffffff);
-        //this.scene.fog = new THREE.Fog(0xa0a0a0, 200, 1000);
+        this.scene.fog = new THREE.Fog(0xa0a0a0, 200, 1000);
 
         // Light
         let light = new THREE.HemisphereLight(0xffffff, 0x444444);
@@ -89,7 +93,6 @@ export default class ReactThreeVisor extends React.Component {
                     const texture = new THREE.TextureLoader().load(this.props.texture);
                     material = new THREE.MeshBasicMaterial({ map: texture, skinning: true });
                 }
-
                 object.traverse(function (child) {
                     if (child.isMesh) {
                         if (material !== null) {
@@ -110,7 +113,7 @@ export default class ReactThreeVisor extends React.Component {
                 }
 
                 // CMN animations
-                if (this.props.animationIdx > -1) {
+                if (this.props.animationIdx !== undefined && this.props.animationIdx > -1) {
                     const cmn = require(`./fbx/cmn.fbx`);
                     loader.load(cmn, (obj) => {
                         if (obj.animations[this.props.animationIdx]) {
@@ -118,12 +121,10 @@ export default class ReactThreeVisor extends React.Component {
                             action.play();
                         }
                     });
+                } else if (object.animations.length > 0) {
+                    let action = object.mixer.clipAction(object.animations[0]);
+                    action.play();
                 }
-
-                // if (object.animations[0]) {
-                //     let action = object.mixer.clipAction(object.animations[0]);
-                //     action.play();
-                // }
                 this.scene.add(object);
             }, (s) => {
                 this.handleLoad(s);
