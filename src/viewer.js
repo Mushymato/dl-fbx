@@ -112,15 +112,20 @@ export default class ReactThreeVisor extends React.Component {
                     this.mixers.push(object.mixer);
                 }
 
-                // CMN animations
-                if (this.props.animationIdx !== undefined && this.props.animationIdx > -1) {
-                    const cmn = require(`./fbx/cmn.fbx`);
-                    loader.load(cmn, (obj) => {
-                        if (obj.animations[this.props.animationIdx]) {
-                            let action = object.mixer.clipAction(obj.animations[this.props.animationIdx]);
-                            action.play();
-                        }
-                    });
+                if (this.props.animationIdx !== undefined) {
+                    const args = this.props.animationIdx.split('+');
+                    if (args.length === 2) {
+                        const aniFile = args[0];
+                        const aniName = args[1];
+                        const ani = require(`./fbx/${aniFile}.fbx`);
+                        loader.load(ani, (obj) => {
+                            const animation = obj.animations.find((a) => (a.name === aniName));
+                            if (animation) {
+                                let action = object.mixer.clipAction(animation);
+                                action.play();
+                            }
+                        });
+                    }
                 } else if (object.animations.length > 0) {
                     let action = object.mixer.clipAction(object.animations[0]);
                     action.play();

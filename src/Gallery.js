@@ -3,11 +3,32 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { characterList, dragonList, weaponList } from './fbx';
 
+const winAnimationKeys = {
+    Axe: 'AXE_WIN_01',
+    Bow: 'BOW_WIN_01',
+    Staff: 'CAN_WIN_01',
+    Lance: 'LAN_WIN_01',
+    Sword: 'SWD_WIN_01',
+    Dagger: 'DAG_WIN_01',
+    Wand: 'ROD_WIN_01',
+    Blade: 'KAT_WIN_01'
+}
+
+const winAnimationKeysSpecial = {
+    Axe: ['10000213'],
+    Bow: ['10002902'],
+    Staff: [],
+    Lance: ['10001004', '11032801'],
+    Sword: ['10000108', '10000307', '11029101', '11032701'],
+    Dagger: [],
+    Wand: ['10000410', '11033301'],
+    Blade: []
+}
 export class CharacterIndex extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
-        const wikiURL = 'https://dragalialost.gamepedia.com/api.php?action=cargoquery&format=json&limit=500&tables=Adventurers&fields=Id,VariationId,FullName';
+        const wikiURL = 'https://dragalialost.gamepedia.com/api.php?action=cargoquery&format=json&limit=500&tables=Adventurers&fields=Id,VariationId,FullName,WeaponType';
         const request = new Request(wikiURL, {
             method: 'get',
             headers: {
@@ -24,7 +45,11 @@ export class CharacterIndex extends React.Component {
                         const id = d.title.Id;
                         const vid = parseInt(d.title.VariationId) >= 10 ? d.title.VariationId : `0${d.title.VariationId}`;
                         const n = d.title.FullName;
-                        newxIdMap[`c${id}_${vid}`] = n;
+                        let win = winAnimationKeys[d.title.WeaponType];
+                        if (winAnimationKeysSpecial[d.title.WeaponType].includes(`${id}${vid}`)) {
+                            win = `${win}_${id}${vid}`;
+                        }
+                        newxIdMap[`c${id}_${vid}`] = [n, win];
                     }
                     this.setState({ idMap: newxIdMap });
                 });
@@ -38,7 +63,7 @@ export class CharacterIndex extends React.Component {
         if (this.state.idMap !== undefined && this.state.idMap.hasOwnProperty(fn)) {
             return this.state.idMap[fn];
         } else {
-            return fn;
+            return [fn, undefined];
         }
     };
     render() {
@@ -46,17 +71,12 @@ export class CharacterIndex extends React.Component {
             <div>
                 {
                     characterList.map(fn => {
-                        let name = this.findName(fn);
-                        if (fn.startsWith('c100007')) {
-                            return (<li><Link to={`/${fn}/0`}>Notte</Link></li>)
-                        }
+                        let nwt = this.findName(fn);
                         return (
-                            <ul style={{ float: "left", width: "15%" }} key={fn}>
-                                <li><Link to={`/${fn}/0`}>{name}</Link></li>
-                                <li><Link to={`/${fn}/1`}>{name} Walk</Link></li>
-                                <li><Link to={`/${fn}/2`}>{name} Bob</Link></li>
-                                {/* <li><Link to={`/${fn}/2`}>{fn} Dead</Link></li> */}
-                            </ul>)
+                            <div style={{ float: "left", width: "15%", margin: 5 }} key={fn}>
+                                <Link to={`/${fn}`}>{nwt[0]}</Link><br />
+                                <Link to={`/${fn}/cmn+CMN_MWM_03`}>Bob</Link> <Link to={`/${fn}/cmn+CMN_MWM_01`}>Walk</Link> {nwt[1] !== undefined && <Link to={`/${fn}/win+${nwt[1]}`}>Win</Link>}
+                            </div>)
                     })
                 }
             </div >

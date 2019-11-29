@@ -25,8 +25,7 @@ class Model extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            asset: null,
-            animationIdx: 1
+            asset: null
         }
         this.handleChange = this.handleChange.bind(this);
     }
@@ -102,7 +101,7 @@ class Model extends React.Component {
                     viewport={viewport}
                     cameraPosition={cameraPosition}
                     controlsPosition={controlsPosition}
-                    animationIdx={this.state.animationIdx - 1} />
+                    animationIdx={this.state.animationIdx} />
             </div>
         );
     }
