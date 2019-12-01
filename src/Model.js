@@ -79,7 +79,7 @@ class Model extends React.Component {
         const far = 1000;
         const viewport = {
             width: 1000,
-            height: window.innerHeight - 10,
+            height: window.innerHeight - 5,
         };
         const cameraPosition = cameraPositions[type];
         const controlsPosition = {

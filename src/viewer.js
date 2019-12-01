@@ -97,10 +97,11 @@ export default class ReactThreeVisor extends React.Component {
                     if (child.isMesh) {
                         if (material !== null) {
                             if (Array.isArray(child.material)) {
-                                child.material.map(() => { return material; });
+                                child.material = child.material.map(() => { return material; });
                             } else {
                                 child.material = material;
                             }
+                            console.log(child.material);
                         }
                         child.castShadow = true;
                         child.receiveShadow = true;
