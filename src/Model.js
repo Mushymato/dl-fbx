@@ -7,7 +7,7 @@ import { withRouter } from "react-router-dom";
 const cameraPositions = {
     c: {
         x: 0,
-        y: 0.5,
+        y: -0.5,
         z: 3
     },
     d: {
@@ -78,7 +78,7 @@ class Model extends React.Component {
         const near = 1;
         const far = 1000;
         const viewport = {
-            width: 1000,
+            width: window.innerWidth,
             height: window.innerHeight - 5,
         };
         const cameraPosition = cameraPositions[type];
