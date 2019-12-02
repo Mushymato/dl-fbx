@@ -143,7 +143,6 @@ export default class ReactThreeVisor extends React.Component {
               const aniName = args[1];
               const ani = require(`./fbx/${aniFile}.fbx`);
               loader.load(ani, obj => {
-                console.log(obj.animations, aniName);
                 const animation = obj.animations.find(a => a.name === aniName);
                 if (animation) {
                   let action = object.mixer.clipAction(animation);
