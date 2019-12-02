@@ -11,14 +11,21 @@ const cameraPositions = {
     z: 1.5
   },
   d: {
-    x: 2,
+    x: 3,
     y: 0.5,
     z: 6
+  }
+};
+const controlsPositions = {
+  c: {
+    x: 0,
+    y: 0.5,
+    z: 0
   },
-  w: {
-    x: 6,
-    y: -6,
-    z: 10
+  d: {
+    x: 0,
+    y: 1,
+    z: 0
   }
 };
 class Model extends React.Component {
@@ -83,11 +90,7 @@ class Model extends React.Component {
       height: window.innerHeight - 5
     };
     const cameraPosition = cameraPositions[type];
-    const controlsPosition = {
-      x: 0,
-      y: 0,
-      z: 0
-    };
+    const controlsPosition = controlsPositions[type];
     // const zoom = 7;
     return (
       <div>

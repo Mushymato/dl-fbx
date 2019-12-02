@@ -61,7 +61,7 @@ if __name__ == '__main__':
                 try:
                     fbx_index[d[0]][d] = {
                         'name': chara[d]['FullName'],
-                        'win': win_animation[chara[d]['WeaponType']] if chara[d]['Id']+chara[d]['VariationId'] not in win_animation_special[chara[d]['WeaponType']] else '{}_{}'.format(win_animation[chara[d]['WeaponType']], chara[d]['Id']+chara[d]['VariationId'])
+                        'win': win_animation[chara[d]['WeaponType']] if '{}{:02d}'.format(chara[d]['Id'], int(chara[d]['VariationId'])) not in win_animation_special[chara[d]['WeaponType']] else '{}_{}{:02d}'.format(win_animation[chara[d]['WeaponType']], chara[d]['Id'], int(chara[d]['VariationId']))
                     }
                 except KeyError:
                     fbx_index[d[0]][d] = {

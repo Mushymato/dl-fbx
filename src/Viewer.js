@@ -73,7 +73,7 @@ export default class ReactThreeVisor extends React.Component {
     this.controls = new OrbitControls(this.camera);
     this.controls.target.set(
       this.controlsPosition.x,
-      this.controlsPosition.y + 0.5,
+      this.controlsPosition.y,
       this.controlsPosition.z
     );
     this.controls.update();
@@ -114,7 +114,7 @@ export default class ReactThreeVisor extends React.Component {
               skinning: true
             });
           }
-          object.traverse(function(child) {
+          object.traverse(function (child) {
             if (child.isMesh) {
               if (material !== null) {
                 if (Array.isArray(child.material)) {
@@ -143,6 +143,7 @@ export default class ReactThreeVisor extends React.Component {
               const aniName = args[1];
               const ani = require(`./fbx/${aniFile}.fbx`);
               loader.load(ani, obj => {
+                console.log(obj.animations, aniName);
                 const animation = obj.animations.find(a => a.name === aniName);
                 if (animation) {
                   let action = object.mixer.clipAction(animation);
