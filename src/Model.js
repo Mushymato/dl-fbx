@@ -38,7 +38,7 @@ class Model extends React.Component {
     try {
       this.setState({ model: require(`./fbx/${asset}/${asset}.fbx`) });
     } catch (e) {
-      console.log("No model");
+      //   console.log("No model");
     }
     try {
       this.setState({ texture: require(`./fbx/${asset}/${asset}.png`) });
@@ -50,10 +50,10 @@ class Model extends React.Component {
             texture: require(`./fbx/${texture_asset}/${texture_asset}.png`)
           });
         } catch (e) {
-          console.log("No og texture");
+          //   console.log("No og texture");
         }
       }
-      console.log("No texture");
+      //   console.log("No texture");
     }
   }
   componentDidMount() {

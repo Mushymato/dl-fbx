@@ -124,7 +124,7 @@ export default class ReactThreeVisor extends React.Component {
                 } else {
                   child.material = material;
                 }
-                console.log(child.material);
+                // console.log(child.material);
               }
               child.castShadow = true;
               child.receiveShadow = true;
