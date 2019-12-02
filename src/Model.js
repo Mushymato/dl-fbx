@@ -93,7 +93,7 @@ class Model extends React.Component {
     const controlsPosition = controlsPositions[type];
     // const zoom = 7;
     return (
-      <div>
+      <div style={{ touchAction: 'manipulation' }}>
         <ReactThreeFbxViewer
           model={this.state.model}
           texture={this.state.texture}
