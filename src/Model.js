@@ -8,7 +8,7 @@ const cameraPositions = {
   c: {
     x: 0,
     y: 0.5,
-    z: 3
+    z: 1.5
   },
   d: {
     x: 2,
