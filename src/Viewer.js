@@ -137,23 +137,26 @@ export default class ReactThreeVisor extends React.Component {
           }
 
           if (this.props.animationIdx !== undefined) {
-            const args = this.props.animationIdx.split("+");
-            if (args.length === 2) {
-              const aniFile = args[0];
-              const aniName = args[1];
-              const ani = require(`./fbx/${aniFile}.fbx`);
-              loader.load(ani, obj => {
-                const animation = obj.animations.find(a => a.name === aniName);
-                if (animation) {
-                  let action = object.mixer.clipAction(animation);
-                  action.play();
-                }
-              });
+            if (this.props.animationIdx.includes("+")) {
+              const args = this.props.animationIdx.split("+");
+              if (args.length === 2) {
+                const aniFile = args[0];
+                const aniName = args[1];
+                const ani = require(`./fbx/${aniFile}.fbx`);
+                loader.load(ani, obj => {
+                  const animation = obj.animations.find(a => a.name === aniName);
+                  if (animation) {
+                    let action = object.mixer.clipAction(animation);
+                    action.play();
+                  }
+                });
+              }
+            } else if (object.animations && object.animations[this.props.animationIdx]) {
+              let action = object.mixer.clipAction(object.animations[this.props.animationIdx]);
+              action.play();
             }
-          } else if (object.animations.length > 0) {
-            let action = object.mixer.clipAction(object.animations[0]);
-            action.play();
           }
+
           this.scene.add(object);
         },
         s => {

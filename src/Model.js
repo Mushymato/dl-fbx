@@ -39,8 +39,7 @@ class Model extends React.Component {
   updateModelState() {
     let asset = this.props.match.params.asset;
     this.setState({
-      asset: asset,
-      animationIdx: this.props.match.params.animationIdx
+      asset: asset
     });
     try {
       this.setState({ model: require(`./fbx/${asset}/${asset}.fbx`) });
@@ -80,20 +79,40 @@ class Model extends React.Component {
     if (this.state.model === undefined) {
       return <React.Fragment></React.Fragment>;
     }
-    const type = this.state.asset.substring(0, 1);
     const backgroundColor = 0x000000;
     const angle = 0;
     const near = 1;
     const far = 1000;
     const viewport = {
       width: window.innerWidth,
-      height: window.innerHeight - 5
+      height: window.innerHeight
     };
-    const cameraPosition = cameraPositions[type];
-    const controlsPosition = controlsPositions[type];
+    const type = this.state.asset.substring(0, 1);
+    let cameraPosition = cameraPositions[type];
+    let controlsPosition = controlsPositions[type];
+    if (this.props.match.params.controlsPosition) {
+      const ctrl = this.props.match.params.controlsPosition.split(',');
+      if (ctrl.length === 3) {
+        controlsPosition = {
+          x: parseFloat(ctrl[0]),
+          y: parseFloat(ctrl[1]),
+          z: parseFloat(ctrl[2]),
+        }
+      }
+    }
+    if (this.props.match.params.cameraPosition) {
+      const cam = this.props.match.params.cameraPosition.split(',');
+      if (cam.length === 3) {
+        cameraPosition = {
+          x: parseFloat(cam[0]),
+          y: parseFloat(cam[1]),
+          z: parseFloat(cam[2]),
+        }
+      }
+    }
     // const zoom = 7;
     return (
-      <div style={{ touchAction: 'manipulation' }}>
+      <div>
         <ReactThreeFbxViewer
           model={this.state.model}
           texture={this.state.texture}
@@ -105,7 +124,7 @@ class Model extends React.Component {
           viewport={viewport}
           cameraPosition={cameraPosition}
           controlsPosition={controlsPosition}
-          animationIdx={this.state.animationIdx}
+          animationIdx={this.props.match.params.animationIdx}
         />
       </div>
     );
