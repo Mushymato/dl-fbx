@@ -1,6 +1,7 @@
 import React from "react";
 import ReactThreeFbxViewer from "./Viewer";
 import { withRouter } from "react-router-dom";
+import { fbxSource } from "./App";
 // import fbxIdx from './fbx/index.json';
 
 // let fbxUrl = require('./fbx/asd.fbx');
@@ -50,31 +51,37 @@ class Model extends React.Component {
   updateModelState() {
     let asset = this.props.match.params.asset;
     this.setState({
-      asset: asset
+      asset: asset,
+      model: `${fbxSource}/fbx/${asset}/${asset}.fbx`,
+      texture: `${fbxSource}/fbx/${asset}/${asset}.png`,
     });
-    try {
-      this.setState({ model: require(`./fbx/${asset}/${asset}.fbx`) });
-    } catch (e) { }
-    try {
-      this.setState({ texture: require(`./fbx/${asset}/${asset}.png`) });
-    } catch (e) {
-      if (asset.length > 10) {
-        let texture_asset = asset.substring(0, 10);
-        try {
-          this.setState({
-            texture: require(`./fbx/${texture_asset}/${texture_asset}.png`)
-          });
-        } catch (e) { }
-      }
-      if (asset[0] === 'w') {
-        try {
-          let texture_asset = asset.substring(0, 9) + '1';
-          this.setState({
-            texture: require(`./fbx/${asset}/${texture_asset}.png`)
-          });
-        } catch (e) { }
-      }
+    if (asset[0] === 'w' && asset[9] === '2') {
+      let texture_asset = asset.substring(0, 9) + '1';
+      this.setState({ texture: `${fbxSource}/fbx/${asset}/${texture_asset}.png` });
     }
+    // try {
+    //   this.setState({ model: `${fbxSource}/fbx/${asset}/${asset}.fbx` });
+    // } catch (e) { }
+    // try {
+    //   this.setState({ texture: `${fbxSource}/fbx/${asset}/${asset}.png` });
+    // } catch (e) {
+    //   if (asset.length > 10) {
+    //     let texture_asset = asset.substring(0, 10);
+    //     try {
+    //       this.setState({
+    //         texture: require(`./fbx/${texture_asset}/${texture_asset}.png`)
+    //       });
+    //     } catch (e) { }
+    //   }
+    //   if (asset[0] === 'w') {
+    //     try {
+    //       let texture_asset = asset.substring(0, 9) + '1';
+    //       this.setState({
+    //         texture: require(`./fbx/${asset}/${texture_asset}.png`)
+    //       });
+    //     } catch (e) { }
+    //   }
+    // }
     // if (fbxIdx[asset.substring(0, 1)][asset].ex !== null) {
     //   const ex = fbxIdx[asset.substring(0, 1)][asset].ex;
     //   try {

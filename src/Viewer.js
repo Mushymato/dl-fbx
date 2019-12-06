@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import * as THREE from "three";
+import { fbxSource } from "./App";
+
 let OrbitControls = require("three-orbit-controls")(THREE);
 let FBXLoader = require("three-fbxloader-offical");
 
@@ -137,7 +139,7 @@ export default class ReactThreeVisor extends React.Component {
           if (args.length === 2) {
             const aniFile = args[0];
             const aniName = args[1];
-            const ani = require(`./fbx/${aniFile}.fbx`);
+            const ani = `${fbxSource}/fbx/${aniFile}.fbx`;
             let aniLoader = new FBXLoader();
             aniLoader.load(ani, obj => {
               const animation = obj.animations.find(a => a.name === aniName);

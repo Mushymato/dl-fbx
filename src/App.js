@@ -4,6 +4,8 @@ import Model from './Model';
 // import { CharacterIndex, DragonIndex } from './Gallery';
 import { CharacterIndex, DragonIndex, WeaponIndex } from './Gallery';
 
+export const fbxSource = 'http://localhost/';
+
 class App extends React.Component {
   render() {
     return (

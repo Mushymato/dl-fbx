@@ -1,4 +1,5 @@
 import os
+import sys
 import requests
 from urllib.parse import quote
 import json
@@ -56,9 +57,11 @@ if __name__ == '__main__':
         'd': {},
         'w': {}
     }
+
+    idx_dir = sys.argv[0] if len(sys.argv) > 0 else './src/fbx'
     
-    for d in os.listdir('./src/fbx'):
-        if os.path.isdir('./src/fbx/'+d):
+    for d in os.listdir(idx_dir):
+        if os.path.isdir(idx_dir+d):
             if d[0] == 'c':
                 try:
                     fbx_index[d[0]][d] = {
@@ -93,5 +96,5 @@ if __name__ == '__main__':
                         fbx_index[d[0]][m]['ex'] = d
                     except KeyError:
                         fbx_index[d[0]][d] = {'name': '???'}
-    with open('src/fbx/index.json', 'w') as f:
+    with open('src/index.json', 'w') as f:
         f.write(json.dumps(fbx_index))

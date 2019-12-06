@@ -1,7 +1,6 @@
-// https://dragalialost.gamepedia.com/api.php?action=cargoquery&format=json&limit=500&tables=Adventurers&fields=Id,Name
 import React from 'react';
 import { Link } from 'react-router-dom';
-import fbxIdx from './fbx/index.json';
+import fbxIdx from './index.json';
 
 export function CharacterIndex() {
     return (
