@@ -81,7 +81,7 @@ export default class ReactThreeVisor extends React.Component {
     // Scene
     this.scene = new THREE.Scene();
     // this.scene.background = new THREE.Color(this.props.backgroundColor);
-    this.scene.background = new THREE.Color(0xffffff);
+    this.scene.background = new THREE.Color(0xfdfdfd);
     this.scene.fog = new THREE.Fog(0xa0a0a0, 200, 1000);
 
     // Light

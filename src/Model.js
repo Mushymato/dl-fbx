@@ -105,7 +105,7 @@ class Model extends React.Component {
     const far = 1000;
     const viewport = {
       width: window.innerWidth,
-      height: window.innerHeight
+      height: window.innerHeight - 5
     };
     const type = this.state.asset.substring(0, 1);
     let cameraPosition = cameraPositions[type];
