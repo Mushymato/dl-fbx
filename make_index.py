@@ -46,15 +46,10 @@ win_animation_special = {
     'Wand': ['10000410', '11033301', '11035401'],
     'Blade': []
 }
-def fmt_wpn_name(wpn):
-    if wpn['ElementalType'] == 'None' or wpn['ElementalType'] == '':
-        return '[{}]-{}'.format(wpn['Type'], wpn['WeaponName'])
-    else:
-        return '[{}|{}]-{}'.format(wpn['ElementalType'], wpn['Type'], wpn['WeaponName'])
 if __name__ == '__main__':
     chara = {'c{}_{:02d}'.format(d['title']['Id'], int(d['title']['VariationId'])) : d['title'] for d in get_data(tables='Adventurers', fields='Id,VariationId,FullName,WeaponType')}
     dragon = {'d{}_{:02d}'.format(d['title']['BaseId'], int(d['title']['VariationId'])) : d['title'] for d in get_data(tables='Dragons', fields='BaseId,VariationId,FullName')}
-    weapon = {'w{}_{:02d}'.format(d['title']['BaseId'], int(d['title']['VariationId'])) : d['title'] for d in get_data(tables='Weapons', fields='BaseId,VariationId,WeaponName,Type,ElementalType')}
+    weapon = {'w{}_{:02d}'.format(d['title']['BaseId'], int(d['title']['VariationId'])) : d['title'] for d in get_data(tables='Weapons', fields='BaseId,VariationId,WeaponName,Type')}
 
     fbx_index = {
         'c': {},
@@ -77,22 +72,26 @@ if __name__ == '__main__':
                     }
             elif d[0] == 'd':
                 try:
-                    fbx_index[d[0]][d] = dragon[d]['FullName']
+                    fbx_index[d[0]][d] = {
+                        'name': dragon[d]['FullName']
+                    }
                 except KeyError:
                     try:
-                        fbx_index[d[0]][d] = '{} EX{}'.format(dragon[d[:-3]]['FullName'], d[-2:])
+                        fbx_index[d[0]][d] = {'name': '{} EX{}'.format(dragon[d[:-3]]['FullName'], d[-2:])}
                     except KeyError:
-                        fbx_index[d[0]][d] = '???'
+                        fbx_index[d[0]][d] = {'name': '???'}
             elif d[0] == 'w':
                 try:
-                    fbx_index[d[0]][d] = fmt_wpn_name(weapon[d])
+                    wpn = weapon[d]
+                    fbx_index[d[0]][d] = {
+                        'wt': wpn['Type'],
+                        'name': wpn['WeaponName'],
+                    }
                 except KeyError:
                     try:
-                        fbx_index[d[0]][d] = '{} sheath'.format(fmt_wpn_name(weapon[d[:-1]+'1']))
+                        m = d[:-1]+'1'
+                        fbx_index[d[0]][m]['ex'] = d
                     except KeyError:
-                        fbx_index[d[0]][d] = '???'
+                        fbx_index[d[0]][d] = {'name': '???'}
     with open('src/fbx/index.json', 'w') as f:
         f.write(json.dumps(fbx_index))
-
-    
-    

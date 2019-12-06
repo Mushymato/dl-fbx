@@ -90,7 +90,7 @@ export default class ReactThreeVisor extends React.Component {
     this.scene.add(light);
     light = new THREE.DirectionalLight(0xffffff);
     light.position.set(0, 200, 100);
-    light.castShadow = true;
+    light.castShadow = false;
     light.shadow.camera.top = 180;
     light.shadow.camera.bottom = -100;
     light.shadow.camera.left = -120;
@@ -101,63 +101,69 @@ export default class ReactThreeVisor extends React.Component {
     this.scene.add(light);
 
     // model
+    const loaderCallback = (object, textureFile, offset) => {
+      let material = null;
+      if (textureFile !== null) {
+        const texture = new THREE.TextureLoader().load(textureFile);
+        material = new THREE.MeshBasicMaterial({
+          map: texture,
+          skinning: true
+        });
+      }
+      object.traverse(function (child) {
+        if (child.isMesh) {
+          if (material !== null) {
+            if (Array.isArray(child.material)) {
+              child.material = child.material.map(() => {
+                return material;
+              });
+            } else {
+              child.material = material;
+            }
+          }
+          child.castShadow = false;
+          child.receiveShadow = false;
+        }
+      });
+
+      object.mixer = new THREE.AnimationMixer(object);
+      if (object.mixer) {
+        this.mixers.push(object.mixer);
+      }
+
+      if (this.props.animationIdx !== undefined) {
+        if (this.props.animationIdx.includes("+")) {
+          const args = this.props.animationIdx.split("+");
+          if (args.length === 2) {
+            const aniFile = args[0];
+            const aniName = args[1];
+            const ani = require(`./fbx/${aniFile}.fbx`);
+            let aniLoader = new FBXLoader();
+            aniLoader.load(ani, obj => {
+              const animation = obj.animations.find(a => a.name === aniName);
+              if (animation) {
+                let action = object.mixer.clipAction(animation);
+                action.play();
+              }
+            });
+          }
+        } else if (object.animations && object.animations[this.props.animationIdx]) {
+          let action = object.mixer.clipAction(object.animations[this.props.animationIdx]);
+          action.play();
+        }
+      }
+      if (offset !== null) {
+        object.position.add(offset);
+      }
+      this.scene.add(object);
+    };
+    loaderCallback.bind(this);
     if (this.props.model) {
       let loader = new FBXLoader();
       loader.load(
         this.props.model,
         object => {
-          let material = null;
-          if (this.props.texture) {
-            const texture = new THREE.TextureLoader().load(this.props.texture);
-            material = new THREE.MeshBasicMaterial({
-              map: texture,
-              skinning: true
-            });
-          }
-          object.traverse(function (child) {
-            if (child.isMesh) {
-              if (material !== null) {
-                if (Array.isArray(child.material)) {
-                  child.material = child.material.map(() => {
-                    return material;
-                  });
-                } else {
-                  child.material = material;
-                }
-                // console.log(child.material);
-              }
-              child.castShadow = true;
-              child.receiveShadow = true;
-            }
-          });
-
-          object.mixer = new THREE.AnimationMixer(object);
-          if (object.mixer) {
-            this.mixers.push(object.mixer);
-          }
-
-          if (this.props.animationIdx !== undefined) {
-            if (this.props.animationIdx.includes("+")) {
-              const args = this.props.animationIdx.split("+");
-              if (args.length === 2) {
-                const aniFile = args[0];
-                const aniName = args[1];
-                const ani = require(`./fbx/${aniFile}.fbx`);
-                loader.load(ani, obj => {
-                  const animation = obj.animations.find(a => a.name === aniName);
-                  if (animation) {
-                    let action = object.mixer.clipAction(animation);
-                    action.play();
-                  }
-                });
-              }
-            } else if (object.animations && object.animations[this.props.animationIdx]) {
-              let action = object.mixer.clipAction(object.animations[this.props.animationIdx]);
-              action.play();
-            }
-          }
-
-          this.scene.add(object);
+          loaderCallback(object, this.props.texture, null);
         },
         s => {
           this.handleLoad(s);
@@ -167,6 +173,26 @@ export default class ReactThreeVisor extends React.Component {
         }
       );
     }
+    // if (this.props.ex) {
+    //   let loader = new FBXLoader();
+    //   loader.load(
+    //     this.props.ex,
+    //     object => {
+    //       const offset = new THREE.Vector3(0, 0.25, 0);
+    //       if (this.props.exTexture) {
+    //         loaderCallback(object, this.props.exTexture, offset);
+    //       } else {
+    //         loaderCallback(object, this.props.texture, offset);
+    //       }
+    //     },
+    //     s => {
+    //       this.handleLoad(s);
+    //     },
+    //     error => {
+    //       this.handleError(error);
+    //     }
+    //   );
+    // }
 
     // Renderer
     this.renderer = new THREE.WebGLRenderer({ antialias: true });

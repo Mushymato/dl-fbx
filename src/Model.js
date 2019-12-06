@@ -1,6 +1,7 @@
 import React from "react";
 import ReactThreeFbxViewer from "./Viewer";
 import { withRouter } from "react-router-dom";
+// import fbxIdx from './fbx/index.json';
 
 // let fbxUrl = require('./fbx/asd.fbx');
 
@@ -53,9 +54,7 @@ class Model extends React.Component {
     });
     try {
       this.setState({ model: require(`./fbx/${asset}/${asset}.fbx`) });
-    } catch (e) {
-      //   console.log("No model");
-    }
+    } catch (e) { }
     try {
       this.setState({ texture: require(`./fbx/${asset}/${asset}.png`) });
     } catch (e) {
@@ -65,9 +64,7 @@ class Model extends React.Component {
           this.setState({
             texture: require(`./fbx/${texture_asset}/${texture_asset}.png`)
           });
-        } catch (e) {
-          //   console.log("No og texture");
-        }
+        } catch (e) { }
       }
       if (asset[0] === 'w') {
         try {
@@ -75,12 +72,18 @@ class Model extends React.Component {
           this.setState({
             texture: require(`./fbx/${asset}/${texture_asset}.png`)
           });
-        } catch (e) {
-          //   console.log("No og texture");
-        }
+        } catch (e) { }
       }
-      //   console.log("No texture");
     }
+    // if (fbxIdx[asset.substring(0, 1)][asset].ex !== null) {
+    //   const ex = fbxIdx[asset.substring(0, 1)][asset].ex;
+    //   try {
+    //     this.setState({ ex: require(`./fbx/${ex}/${ex}.fbx`) });
+    //   } catch (e) { }
+    //   try {
+    //     this.setState({ exTexture: require(`./fbx/${ex}/${ex}.png`) });
+    //   } catch (e) { }
+    // }
   }
   componentDidMount() {
     this.updateModelState();
@@ -136,6 +139,8 @@ class Model extends React.Component {
         <ReactThreeFbxViewer
           model={this.state.model}
           texture={this.state.texture}
+          // ex={this.state.ex}
+          // exTexture={this.state.exTexture}
           backgroundColor={backgroundColor}
           angle={angle}
           near={near}

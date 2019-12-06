@@ -27,7 +27,7 @@ export function DragonIndex() {
         <div>
             {
                 Object.keys(fbxIdx.d).map(fn => {
-                    let name = fbxIdx.d[fn];
+                    let name = fbxIdx.d[fn].name;
                     return (
                         <div style={{ float: "left", width: "15%" }} key={fn}>
                             <div>{name}</div>
@@ -44,13 +44,13 @@ export function WeaponIndex() {
         <div>
             {
                 Object.keys(fbxIdx.w).map(fn => {
-                    let tn = fbxIdx.w[fn].split('-');
-                    const type = tn[0];
-                    const name = tn[1];
+                    const type = fbxIdx.w[fn].wt;
+                    const name = fbxIdx.w[fn].name;
+                    const ex = fbxIdx.w[fn].ex;
                     return (
-                        <div style={{ float: "left", width: "15%", height: 100 }} key={fn}>
+                        <div style={{ float: "left", width: "15%", height: 80 }} key={fn}>
                             <div>{type}<br />{name}</div>
-                            <Link to={`/${fn}`}>{fn}</Link>
+                            <Link to={`/${fn}`}>{fn}</Link> {ex && <Link to={`/${ex}`}>EX</Link>}
                         </div>)
                 })
             }
