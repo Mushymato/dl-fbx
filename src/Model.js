@@ -14,6 +14,11 @@ const cameraPositions = {
     x: 3,
     y: 0.5,
     z: 6
+  },
+  w: {
+    x: 2,
+    y: 0,
+    z: 0
   }
 };
 const controlsPositions = {
@@ -25,6 +30,11 @@ const controlsPositions = {
   d: {
     x: 0,
     y: 1,
+    z: 0
+  },
+  w: {
+    x: 0,
+    y: 0,
     z: 0
   }
 };
@@ -54,6 +64,16 @@ class Model extends React.Component {
         try {
           this.setState({
             texture: require(`./fbx/${texture_asset}/${texture_asset}.png`)
+          });
+        } catch (e) {
+          //   console.log("No og texture");
+        }
+      }
+      if (asset[0] === 'w') {
+        try {
+          let texture_asset = asset.substring(0, 9) + '1';
+          this.setState({
+            texture: require(`./fbx/${asset}/${texture_asset}.png`)
           });
         } catch (e) {
           //   console.log("No og texture");

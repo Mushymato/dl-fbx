@@ -46,15 +46,22 @@ win_animation_special = {
     'Wand': ['10000410', '11033301', '11035401'],
     'Blade': []
 }
+def fmt_wpn_name(wpn):
+    if wpn['ElementalType'] == 'None' or wpn['ElementalType'] == '':
+        return '[{}]-{}'.format(wpn['Type'], wpn['WeaponName'])
+    else:
+        return '[{}|{}]-{}'.format(wpn['ElementalType'], wpn['Type'], wpn['WeaponName'])
 if __name__ == '__main__':
-    # https://dragalialost.gamepedia.com/api.php?action=cargoquery&format=json&limit=500&tables=Adventurers&fields=Id,VariationId,FullName,WeaponType
     chara = {'c{}_{:02d}'.format(d['title']['Id'], int(d['title']['VariationId'])) : d['title'] for d in get_data(tables='Adventurers', fields='Id,VariationId,FullName,WeaponType')}
     dragon = {'d{}_{:02d}'.format(d['title']['BaseId'], int(d['title']['VariationId'])) : d['title'] for d in get_data(tables='Dragons', fields='BaseId,VariationId,FullName')}
+    weapon = {'w{}_{:02d}'.format(d['title']['BaseId'], int(d['title']['VariationId'])) : d['title'] for d in get_data(tables='Weapons', fields='BaseId,VariationId,WeaponName,Type,ElementalType')}
 
     fbx_index = {
         'c': {},
-        'd': {}
+        'd': {},
+        'w': {}
     }
+    
     for d in os.listdir('./src/fbx'):
         if os.path.isdir('./src/fbx/'+d):
             if d[0] == 'c':
@@ -74,6 +81,14 @@ if __name__ == '__main__':
                 except KeyError:
                     try:
                         fbx_index[d[0]][d] = '{} EX{}'.format(dragon[d[:-3]]['FullName'], d[-2:])
+                    except KeyError:
+                        fbx_index[d[0]][d] = '???'
+            elif d[0] == 'w':
+                try:
+                    fbx_index[d[0]][d] = fmt_wpn_name(weapon[d])
+                except KeyError:
+                    try:
+                        fbx_index[d[0]][d] = '{} sheath'.format(fmt_wpn_name(weapon[d[:-1]+'1']))
                     except KeyError:
                         fbx_index[d[0]][d] = '???'
     with open('src/fbx/index.json', 'w') as f:

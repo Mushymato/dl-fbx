@@ -38,3 +38,22 @@ export function DragonIndex() {
         </div >
     )
 }
+
+export function WeaponIndex() {
+    return (
+        <div>
+            {
+                Object.keys(fbxIdx.w).map(fn => {
+                    let tn = fbxIdx.w[fn].split('-');
+                    const type = tn[0];
+                    const name = tn[1];
+                    return (
+                        <div style={{ float: "left", width: "15%", height: 100 }} key={fn}>
+                            <div>{type}<br />{name}</div>
+                            <Link to={`/${fn}`}>{fn}</Link>
+                        </div>)
+                })
+            }
+        </div >
+    )
+}
