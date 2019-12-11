@@ -201,7 +201,7 @@ export default class ReactThreeVisor extends React.Component {
     if (this.props.pixelate) {
       this.renderer = new THREE.WebGLRenderer({ antialias: false });
       this.renderer.setPixelRatio(this.props.pixelate);
-      this.renderer.domElement.style.imageRendering = 'pixelated';
+      this.renderer.domElement.style.cssText = 'image-rendering:crisp-edges;image-rendering:pixelated;';
     } else {
       this.renderer = new THREE.WebGLRenderer({ antialias: true });
       this.renderer.setPixelRatio(window.devicePixelRatio);
