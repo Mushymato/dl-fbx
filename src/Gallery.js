@@ -13,7 +13,8 @@ export function CharacterIndex() {
                         <div style={{ float: "left", width: "15%", margin: 5 }} key={fn}>
                             <div>{nwt.name}</div>
                             <Link to={`/${fn}`}>{fn}</Link> <br />
-                            <Link to={`/${fn}/cmn+CMN_MWM_03`}>Bob</Link> <Link to={`/${fn}/cmn+CMN_MWM_01`}>Walk</Link> <Link to={`/${fn}/cmn+CMN_MWM_02`}>Run</Link> {nwt.win !== null && <Link to={`/${fn}/${win}+${nwt.win}`}>Win</Link>}
+                            <Link to={`/${fn}/cmn+CMN_MWM_03`}>Bob</Link> <Link to={`/${fn}/cmn+CMN_MWM_01`}>Walk</Link> <Link to={`/${fn}/cmn+CMN_MWM_02`}>Run</Link> {nwt.win !== null && <Link to={`/${fn}/${win}+${nwt.win}`}>Win</Link>} <br />
+                            <Link to={`/${fn}/-/w`}>wireframe</Link> <Link to={`/${fn}/-/p8`}>pixelate</Link>
                         </div>)
                 })
             }
@@ -30,7 +31,8 @@ export function DragonIndex() {
                     return (
                         <div style={{ float: "left", width: "15%" }} key={fn}>
                             <div>{name}</div>
-                            <Link to={`/${fn}`}>{fn}</Link>
+                            <Link to={`/${fn}`}>{fn}</Link> <br />
+                            <Link to={`/${fn}/-/w`}>wireframe</Link> <Link to={`/${fn}/-/p8`}>pixelate</Link>
                         </div>)
                 })
             }
@@ -49,7 +51,8 @@ export function WeaponIndex() {
                     return (
                         <div style={{ float: "left", width: "15%", height: 80 }} key={fn}>
                             <div>{type}<br />{name}</div>
-                            <Link to={`/${fn}`}>{fn}</Link> {ex && <Link to={`/${ex}`}>EX</Link>}
+                            <Link to={`/${fn}`}>{fn}</Link> {ex && <Link to={`/${ex}`}>EX</Link>} <br />
+                            <Link to={`/${fn}/-/w`}>wireframe</Link> <Link to={`/${fn}/-/p8`}>pixelate</Link>
                         </div>)
                 })
             }
