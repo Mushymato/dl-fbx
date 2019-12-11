@@ -4,7 +4,7 @@ import Model from './Model';
 // import { CharacterIndex, DragonIndex } from './Gallery';
 import { CharacterIndex, DragonIndex, WeaponIndex } from './Gallery';
 
-export const fbxSource = 'http://localhost/';
+export const fbxSource = 'http://localhost';
 
 class App extends React.Component {
   render() {
@@ -21,7 +21,8 @@ class App extends React.Component {
           <Route exact path="/character" component={CharacterIndex} />
           <Route exact path="/dragon" component={DragonIndex} />
           <Route exact path="/weapon" component={WeaponIndex} />
-          <Route path="/:asset/:animationIdx?/:controlsPosition?/:cameraPosition?" component={Model} />
+          <Route path="/:asset/:animationIdx?/:renderMode?" component={Model} />
+          {/* <Route path="/:asset/:animationIdx?/:controlsPosition?/:cameraPosition?" component={Model} /> */}
         </Switch>
       </BrowserRouter>)
   }

@@ -109,7 +109,8 @@ export default class ReactThreeVisor extends React.Component {
         const texture = new THREE.TextureLoader().load(textureFile);
         material = new THREE.MeshBasicMaterial({
           map: texture,
-          skinning: true
+          skinning: true,
+          wireframe: Boolean(this.props.wireframe)
         });
       }
       object.traverse(function (child) {
@@ -197,8 +198,14 @@ export default class ReactThreeVisor extends React.Component {
     // }
 
     // Renderer
-    this.renderer = new THREE.WebGLRenderer({ antialias: true });
-    this.renderer.setPixelRatio(window.devicePixelRatio);
+    if (this.props.pixelate) {
+      this.renderer = new THREE.WebGLRenderer({ antialias: false });
+      this.renderer.setPixelRatio(this.props.pixelate);
+      this.renderer.domElement.style.imageRendering = 'pixelated';
+    } else {
+      this.renderer = new THREE.WebGLRenderer({ antialias: true });
+      this.renderer.setPixelRatio(window.devicePixelRatio);
+    }
     // this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.setSize(this.viewport.width, this.viewport.height);
     // this.renderer.setViewport(0, 0, this.viewport.width, this.viewport.height);

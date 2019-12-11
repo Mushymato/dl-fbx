@@ -117,27 +117,41 @@ class Model extends React.Component {
       width: window.innerWidth,
       height: window.innerHeight - 5
     };
-    const type = this.state.asset.substring(0, 1);
+    const type = this.state.asset[0];
     let cameraPosition = cameraPositions[type];
     let controlsPosition = controlsPositions[type];
-    if (this.props.match.params.controlsPosition) {
-      const ctrl = this.props.match.params.controlsPosition.split(',');
-      if (ctrl.length === 3) {
-        controlsPosition = {
-          x: parseFloat(ctrl[0]),
-          y: parseFloat(ctrl[1]),
-          z: parseFloat(ctrl[2]),
+    // if (this.props.match.params.controlsPosition) {
+    //   const ctrl = this.props.match.params.controlsPosition.split(',');
+    //   if (ctrl.length === 3) {
+    //     controlsPosition = {
+    //       x: parseFloat(ctrl[0]),
+    //       y: parseFloat(ctrl[1]),
+    //       z: parseFloat(ctrl[2]),
+    //     }
+    //   }
+    // }
+    // if (this.props.match.params.cameraPosition) {
+    //   const cam = this.props.match.params.cameraPosition.split(',');
+    //   if (cam.length === 3) {
+    //     cameraPosition = {
+    //       x: parseFloat(cam[0]),
+    //       y: parseFloat(cam[1]),
+    //       z: parseFloat(cam[2]),
+    //     }
+    //   }
+    // }
+    let wireframe = false;
+    let pixelate = false;
+    console.log(this.props.match.params.renderMode);
+    if (this.props.match.params.renderMode) {
+      const rm = this.props.match.params.renderMode[0];
+      if (rm === 'p') {
+        const ratio = parseInt(this.props.match.params.renderMode.substring(1));
+        if (!isNaN(ratio) && ratio > 0) {
+          pixelate = 1 / ratio;
         }
-      }
-    }
-    if (this.props.match.params.cameraPosition) {
-      const cam = this.props.match.params.cameraPosition.split(',');
-      if (cam.length === 3) {
-        cameraPosition = {
-          x: parseFloat(cam[0]),
-          y: parseFloat(cam[1]),
-          z: parseFloat(cam[2]),
-        }
+      } else if (rm === 'w') {
+        wireframe = true;
       }
     }
     // const zoom = 7;
@@ -153,6 +167,8 @@ class Model extends React.Component {
           near={near}
           far={far}
           // zoom={zoom}
+          wireframe={wireframe}
+          pixelate={pixelate}
           viewport={viewport}
           cameraPosition={cameraPosition}
           controlsPosition={controlsPosition}
