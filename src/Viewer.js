@@ -155,6 +155,13 @@ export default class ReactThreeVisor extends React.Component {
           action.play();
         }
       }
+
+      if (this.props.rotation) {
+        object.rotation.x = this.props.rotation.x;
+        object.rotation.y = this.props.rotation.y;
+        object.rotation.z = this.props.rotation.z;
+      }
+
       if (offset !== null) {
         object.position.add(offset);
       }

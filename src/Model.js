@@ -120,29 +120,44 @@ class Model extends React.Component {
     const type = this.state.asset[0];
     let cameraPosition = cameraPositions[type];
     let controlsPosition = controlsPositions[type];
-    // if (this.props.match.params.controlsPosition) {
-    //   const ctrl = this.props.match.params.controlsPosition.split(',');
-    //   if (ctrl.length === 3) {
-    //     controlsPosition = {
-    //       x: parseFloat(ctrl[0]),
-    //       y: parseFloat(ctrl[1]),
-    //       z: parseFloat(ctrl[2]),
-    //     }
-    //   }
-    // }
-    // if (this.props.match.params.cameraPosition) {
-    //   const cam = this.props.match.params.cameraPosition.split(',');
-    //   if (cam.length === 3) {
-    //     cameraPosition = {
-    //       x: parseFloat(cam[0]),
-    //       y: parseFloat(cam[1]),
-    //       z: parseFloat(cam[2]),
-    //     }
-    //   }
-    // }
+    let rotation = {
+      x: 0,
+      y: 0,
+      z: 0,
+      order: 'XYZ'
+    }
+    if (this.props.match.params.rotation) {
+      const rot = this.props.match.params.rotation.split(',');
+      if (rot.length === 3) {
+        rotation = {
+          x: parseFloat(rot[0]),
+          y: parseFloat(rot[1]),
+          z: parseFloat(rot[2]),
+        }
+      }
+    }
+    if (this.props.match.params.controlsPosition) {
+      const ctrl = this.props.match.params.controlsPosition.split(',');
+      if (ctrl.length === 3) {
+        controlsPosition = {
+          x: parseFloat(ctrl[0]),
+          y: parseFloat(ctrl[1]),
+          z: parseFloat(ctrl[2]),
+        }
+      }
+    }
+    if (this.props.match.params.cameraPosition) {
+      const cam = this.props.match.params.cameraPosition.split(',');
+      if (cam.length === 3) {
+        cameraPosition = {
+          x: parseFloat(cam[0]),
+          y: parseFloat(cam[1]),
+          z: parseFloat(cam[2]),
+        }
+      }
+    }
     let wireframe = false;
     let pixelate = false;
-    console.log(this.props.match.params.renderMode);
     if (this.props.match.params.renderMode) {
       const rm = this.props.match.params.renderMode[0];
       if (rm === 'p') {
@@ -170,6 +185,7 @@ class Model extends React.Component {
           wireframe={wireframe}
           pixelate={pixelate}
           viewport={viewport}
+          rotation={rotation}
           cameraPosition={cameraPosition}
           controlsPosition={controlsPosition}
           animationIdx={this.props.match.params.animationIdx}
