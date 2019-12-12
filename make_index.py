@@ -58,7 +58,7 @@ if __name__ == '__main__':
         'w': {}
     }
 
-    idx_dir = sys.argv[0] if len(sys.argv) > 0 else './src/fbx'
+    idx_dir = sys.argv[1] if len(sys.argv) > 1 else './fbx/'
     
     for d in os.listdir(idx_dir):
         if os.path.isdir(idx_dir+d):
