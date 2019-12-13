@@ -52,7 +52,7 @@ export function WeaponIndex() {
                         <div style={{ float: "left", width: "15%", height: 80 }} key={fn}>
                             <div>{type}<br />{name}</div>
                             <Link to={`/${fn}`}>{fn}</Link> {ex && <Link to={`/${ex}`}>EX</Link>} <br />
-                            <Link to={`/${fn}/-/w`}>wireframe</Link> <Link to={`/${fn}/-/p8`}>pixelate</Link>
+                            <Link to={`/${fn}/-/w`}>wireframe</Link> <Link to={`/${fn}/-/px8`}>pixelate</Link>
                         </div>)
                 })
             }

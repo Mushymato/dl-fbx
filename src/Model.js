@@ -158,12 +158,22 @@ class Model extends React.Component {
     }
     let wireframe = false;
     let pixelate = false;
+    let outline = false;
     if (this.props.match.params.renderMode) {
       const rm = this.props.match.params.renderMode[0];
       if (rm === 'p') {
-        const ratio = parseInt(this.props.match.params.renderMode.substring(1));
+        let ratio = null;
+        if (this.props.match.params.renderMode[1] === 'x') {
+          ratio = parseInt(this.props.match.params.renderMode.substring(2));
+          outline = true;
+        } else {
+          ratio = parseInt(this.props.match.params.renderMode.substring(1));
+        }
         if (!isNaN(ratio) && ratio > 0) {
           pixelate = 1 / ratio;
+          if (outline) {
+            outline = ratio / 100;
+          }
         }
       } else if (rm === 'w') {
         wireframe = true;
@@ -184,6 +194,7 @@ class Model extends React.Component {
           // zoom={zoom}
           wireframe={wireframe}
           pixelate={pixelate}
+          outline={outline}
           viewport={viewport}
           rotation={rotation}
           cameraPosition={cameraPosition}

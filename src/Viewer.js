@@ -6,6 +6,35 @@ import { fbxSource } from "./App";
 let OrbitControls = require("three-orbit-controls")(THREE);
 let FBXLoader = require("three-fbxloader-offical");
 
+function parallelTraverse(a, b, callback) {
+  callback(a, b);
+  for (var i = 0; i < a.children.length; i++) {
+    parallelTraverse(a.children[i], b.children[i], callback);
+  }
+}
+function skeleClone(source) {
+  var sourceLookup = new Map();
+  var cloneLookup = new Map();
+  var clone = source.clone();
+  parallelTraverse(source, clone, function (sourceNode, clonedNode) {
+    sourceLookup.set(clonedNode, sourceNode);
+    cloneLookup.set(sourceNode, clonedNode);
+  });
+  clone.traverse(function (node) {
+    if (!node.isSkinnedMesh) return;
+    var clonedMesh = node;
+    var sourceMesh = sourceLookup.get(node);
+    var sourceBones = sourceMesh.skeleton.bones;
+    clonedMesh.skeleton = sourceMesh.skeleton.clone();
+    clonedMesh.bindMatrix.copy(sourceMesh.bindMatrix);
+    clonedMesh.skeleton.bones = sourceBones.map(function (bone) {
+      return cloneLookup.get(bone);
+    });
+    clonedMesh.bind(clonedMesh.skeleton, clonedMesh.bindMatrix);
+  });
+  return clone;
+}
+
 export default class ReactThreeVisor extends React.Component {
   static propTypes = {
     model: PropTypes.string,
@@ -45,11 +74,12 @@ export default class ReactThreeVisor extends React.Component {
   animate = () => {
     this.animation = requestAnimationFrame(this.animate);
     if (this.mixers.length > 0) {
+      const d = this.clock.getDelta();
       for (var i = 0; i < this.mixers.length; i++) {
-        this.mixers[i].update(this.clock.getDelta());
+        this.mixers[i].update(d);
+        this.renderer.render(this.scene, this.camera);
       }
     }
-    this.renderer.render(this.scene, this.camera);
   };
   init = () => {
     // mixers
@@ -113,57 +143,82 @@ export default class ReactThreeVisor extends React.Component {
           wireframe: Boolean(this.props.wireframe)
         });
       }
+      const applyMaterial = (materials, newMaterial) => {
+        if (Array.isArray(materials)) {
+          return materials.map(() => {
+            return newMaterial;
+          });
+        } else {
+          return newMaterial;
+        }
+      }
       object.traverse(function (child) {
         if (child.isMesh) {
           if (material !== null) {
-            if (Array.isArray(child.material)) {
-              child.material = child.material.map(() => {
-                return material;
-              });
-            } else {
-              child.material = material;
-            }
+            child.material = applyMaterial(child.material, material);
           }
           child.castShadow = false;
           child.receiveShadow = false;
         }
       });
-
-      object.mixer = new THREE.AnimationMixer(object);
-      if (object.mixer) {
-        this.mixers.push(object.mixer);
-      }
-
-      if (this.props.animationIdx !== undefined) {
-        if (this.props.animationIdx.includes("+")) {
-          const args = this.props.animationIdx.split("+");
-          if (args.length === 2) {
-            const aniFile = args[0];
-            const aniName = args[1];
-            const ani = `${fbxSource}/fbx/${aniFile}.fbx`;
-            let aniLoader = new FBXLoader();
-            aniLoader.load(ani, obj => {
-              const animation = obj.animations.find(a => a.name === aniName);
-              if (animation) {
-                let action = object.mixer.clipAction(animation);
-                action.play();
-              }
-            });
-          }
-        } else if (object.animations && object.animations[this.props.animationIdx]) {
-          let action = object.mixer.clipAction(object.animations[this.props.animationIdx]);
-          action.play();
-        }
-      }
-
       if (this.props.rotation) {
         object.rotation.x = this.props.rotation.x;
         object.rotation.y = this.props.rotation.y;
         object.rotation.z = this.props.rotation.z;
       }
-
       if (offset !== null) {
         object.position.add(offset);
+      }
+
+      const addAnimation = (object) => {
+        object.mixer = new THREE.AnimationMixer(object);
+        if (object.mixer) {
+          this.mixers.push(object.mixer);
+        }
+        if (this.props.animationIdx !== undefined) {
+          if (this.props.animationIdx.includes("+")) {
+            const args = this.props.animationIdx.split("+");
+            if (args.length === 2) {
+              const aniFile = args[0];
+              const aniName = args[1];
+              const ani = `${fbxSource}/fbx/${aniFile}.fbx`;
+              let aniLoader = new FBXLoader();
+              aniLoader.load(ani, obj => {
+                const animation = obj.animations.find(a => a.name === aniName);
+                if (animation) {
+                  let action = object.mixer.clipAction(animation);
+                  action.play();
+                }
+              });
+            }
+          } else if (object.animations && object.animations[this.props.animationIdx]) {
+            let action = object.mixer.clipAction(object.animations[this.props.animationIdx]);
+            action.play();
+          }
+        }
+      }
+      addAnimation.bind(this);
+      addAnimation(object);
+
+      const outRatio = this.props.outline;
+      if (outRatio > 0) {
+        const outline = skeleClone(object);
+        outline.position.add(new THREE.Vector3(0, -0.7 * outRatio, 0));
+        outline.scale.multiplyScalar(1 + outRatio);
+        outline.traverse(function (c) {
+          if (c.isMesh) {
+            const outlineMaterial = new THREE.MeshBasicMaterial({
+              color: 0x000000,
+              skinning: true,
+              side: THREE.BackSide
+            });
+            c.material = applyMaterial(c.material, outlineMaterial);
+            c.castShadow = false;
+            c.receiveShadow = false;
+          }
+        });
+        addAnimation(outline);
+        this.scene.add(outline);
       }
       this.scene.add(object);
     };
