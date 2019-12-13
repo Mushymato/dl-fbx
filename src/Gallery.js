@@ -14,7 +14,7 @@ export function CharacterIndex() {
                             <div>{nwt.name}</div>
                             <Link to={`/${fn}`}>{fn}</Link> <br />
                             <Link to={`/${fn}/cmn+CMN_MWM_03`}>Bob</Link> <Link to={`/${fn}/cmn+CMN_MWM_01`}>Walk</Link> <Link to={`/${fn}/cmn+CMN_MWM_02`}>Run</Link> {nwt.win !== null && <Link to={`/${fn}/${win}+${nwt.win}`}>Win</Link>} <br />
-                            <Link to={`/${fn}/-/w`}>wireframe</Link> <Link to={`/${fn}/-/p8`}>pixelate</Link>
+                            <Link to={`/${fn}/-/w`}>wireframe</Link> <Link to={`/${fn}/-/px8`}>pixelate</Link>
                         </div>)
                 })
             }
@@ -32,7 +32,7 @@ export function DragonIndex() {
                         <div style={{ float: "left", width: "15%" }} key={fn}>
                             <div>{name}</div>
                             <Link to={`/${fn}`}>{fn}</Link> <br />
-                            <Link to={`/${fn}/-/w`}>wireframe</Link> <Link to={`/${fn}/-/p8`}>pixelate</Link>
+                            <Link to={`/${fn}/-/w`}>wireframe</Link> <Link to={`/${fn}/-/px8`}>pixelate</Link>
                         </div>)
                 })
             }

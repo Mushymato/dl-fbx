@@ -77,9 +77,9 @@ export default class ReactThreeVisor extends React.Component {
       const d = this.clock.getDelta();
       for (var i = 0; i < this.mixers.length; i++) {
         this.mixers[i].update(d);
-        this.renderer.render(this.scene, this.camera);
       }
     }
+    this.renderer.render(this.scene, this.camera);
   };
   init = () => {
     // mixers
@@ -203,7 +203,7 @@ export default class ReactThreeVisor extends React.Component {
       const outRatio = this.props.outline;
       if (outRatio > 0) {
         const outline = skeleClone(object);
-        outline.position.add(new THREE.Vector3(0, -0.7 * outRatio, 0));
+        outline.position.add(new THREE.Vector3(0, -outRatio / 1.5, 0));
         outline.scale.multiplyScalar(1 + outRatio);
         outline.traverse(function (c) {
           if (c.isMesh) {
