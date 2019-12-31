@@ -3,8 +3,7 @@ import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 import Model from './Model';
 // import { CharacterIndex, DragonIndex } from './Gallery';
 import { CharacterIndex, DragonIndex, WeaponIndex } from './Gallery';
-
-export const fbxSource = 'http://localhost';
+export const fbxSource = process.env.REACT_APP_FBX_SRC;
 
 class App extends React.Component {
   render() {
