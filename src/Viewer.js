@@ -152,6 +152,7 @@ export default class ReactThreeVisor extends React.Component {
           return newMaterial;
         }
       }
+      const faceOffset = this.props.faceOffset;
       object.traverse(function (child) {
         if (child.isMesh) {
           if (material !== null) {
@@ -160,6 +161,32 @@ export default class ReactThreeVisor extends React.Component {
           child.castShadow = false;
           child.receiveShadow = false;
         }
+
+        if (child.name === 'mBodyAll') {
+          // 1: 2, 1
+          // 2: 0, 0
+          // 3: 1, 0
+          // 4: 2, 0
+          // 5: 3, 0
+          // 6: 0, -1
+          // 7: 1, -1
+          // 8: 2, -1
+          // 9: 3, -1
+          if (faceOffset && child.geometry.groups.length === 3) {
+            const faceGroups = child.geometry.groups.filter(k => {
+              return k.count < 1000;
+            });
+            if (faceGroups.length === 2) {
+              const start = Math.min(faceGroups[0].start, faceGroups[1].start);
+              const end = Math.max(faceGroups[0].start + faceGroups[0].count, faceGroups[1].start + faceGroups[1].count);
+              for (let i = start; i < end; i += 1) {
+                child.geometry.attributes.uv.array[i * 2] += 0.25 * faceOffset.x;
+                child.geometry.attributes.uv.array[i * 2 + 1] += 0.25 * faceOffset.y;
+              }
+            }
+          }
+        }
+
       });
       if (this.props.rotation) {
         object.rotation.x = this.props.rotation.x;

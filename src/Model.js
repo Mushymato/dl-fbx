@@ -7,39 +7,26 @@ import { fbxSource } from "./App";
 // let fbxUrl = require('./fbx/asd.fbx');
 
 const cameraPositions = {
-  c: {
-    x: 0,
-    y: 0.5,
-    z: 1.5
-  },
-  d: {
-    x: 3,
-    y: 0.5,
-    z: 6
-  },
-  w: {
-    x: 2,
-    y: 0,
-    z: 0
-  }
+  c: { x: 0, y: 0.5, z: 1.5 },
+  d: { x: 3, y: 0.5, z: 6 },
+  w: { x: 2, y: 0, z: 0 }
 };
 const controlsPositions = {
-  c: {
-    x: 0,
-    y: 0.5,
-    z: 0
-  },
-  d: {
-    x: 0,
-    y: 1,
-    z: 0
-  },
-  w: {
-    x: 0,
-    y: 0,
-    z: 0
-  }
+  c: { x: 0, y: 0.5, z: 0 },
+  d: { x: 0, y: 1, z: 0 },
+  w: { x: 0, y: 0, z: 0 }
 };
+const faceOffsets = {
+  face1: { x: 2, y: 1 },
+  face2: { x: 0, y: 0 },
+  face3: { x: 1, y: 0 },
+  face4: { x: 2, y: 0 },
+  face5: { x: 3, y: 0 },
+  face6: { x: 0, y: -1 },
+  face7: { x: 1, y: -1 },
+  face8: { x: 2, y: -1 },
+  face9: { x: 3, y: -1 },
+}
 class Model extends React.Component {
   constructor(props) {
     super(props);
@@ -156,9 +143,14 @@ class Model extends React.Component {
         }
       }
     }
+    let faceOffset = { x: 0, y: 0 };
+    if (this.props.match.params.face && faceOffsets[this.props.match.params.face]) {
+      faceOffset = faceOffsets[this.props.match.params.face];
+    }
     let wireframe = false;
     let pixelate = false;
     let outline = false;
+    console.log(this.props.match.params.renderMode);
     if (this.props.match.params.renderMode) {
       const rm = this.props.match.params.renderMode[0];
       if (rm === 'p') {
@@ -192,6 +184,7 @@ class Model extends React.Component {
           near={near}
           far={far}
           // zoom={zoom}
+          faceOffset={faceOffset}
           wireframe={wireframe}
           pixelate={pixelate}
           outline={outline}
