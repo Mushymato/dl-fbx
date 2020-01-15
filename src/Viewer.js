@@ -154,7 +154,7 @@ export default class ReactThreeVisor extends React.Component {
       }
       const faceOffset = this.props.faceOffset;
       object.traverse(function (child) {
-        if (child.isMesh) {
+        if (child.isMesh && child.name !== 'simpleBodyAll') {
           if (material !== null) {
             child.material = applyMaterial(child.material, material);
           }

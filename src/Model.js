@@ -150,7 +150,6 @@ class Model extends React.Component {
     let wireframe = false;
     let pixelate = false;
     let outline = false;
-    console.log(this.props.match.params.renderMode);
     if (this.props.match.params.renderMode) {
       const rm = this.props.match.params.renderMode[0];
       if (rm === 'p') {
