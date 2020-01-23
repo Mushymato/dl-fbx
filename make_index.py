@@ -47,7 +47,7 @@ win_animation_special = {
     'Sword': ['10000108', '10000307', '11029101', '11032701'],
     'Dagger': [],
     'Wand': ['10000410', '11033301', '11035401'],
-    'Blade': []
+    'Blade': ['10000609']
 }
 if __name__ == '__main__':
     chara = {'c{}_{:02d}'.format(d['title']['Id'], int(d['title']['VariationId'])) : d['title'] for d in get_data(tables='Adventurers', fields='Id,VariationId,FullName,WeaponType')}
