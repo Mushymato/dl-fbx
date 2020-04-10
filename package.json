@@ -20,7 +20,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "homepage": "http://mushymato.github.io/dl-fbx",
+  "homepage": "http://mushymato.github.io/dl-fbx/",
   "browserslist": {
     "production": [
       ">0.2%",

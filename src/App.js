@@ -8,7 +8,7 @@ export const fbxSource = process.env.PUBLIC_URL;
 class App extends React.Component {
   render() {
     return (
-      <BrowserRouter basename="/dl-fbx">
+      <BrowserRouter basename="/dl-fbx/viewer">
         <Switch>
           <Route exact path="/">
             <ul>
