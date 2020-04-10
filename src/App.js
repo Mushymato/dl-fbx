@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
+import { HashRouter, Switch, Route, Link } from 'react-router-dom';
 import Model from './Model';
 // import { CharacterIndex, DragonIndex } from './Gallery';
 import { CharacterIndex, DragonIndex, WeaponIndex } from './Gallery';
@@ -8,7 +8,7 @@ export const fbxSource = process.env.PUBLIC_URL;
 class App extends React.Component {
   render() {
     return (
-      <BrowserRouter basename="/dl-fbx/viewer">
+      <HashRouter basename="/">
         <Switch>
           <Route exact path="/">
             <ul>
@@ -22,7 +22,7 @@ class App extends React.Component {
           <Route exact path="/weapon" component={WeaponIndex} />
           <Route path="/:asset/:animationIdx?/:face?/:renderMode?/:rotation?/:cameraPosition?/:controlsPosition?" component={Model} />
         </Switch>
-      </BrowserRouter>)
+      </HashRouter>)
   }
 }
 
