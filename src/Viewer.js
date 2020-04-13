@@ -113,7 +113,7 @@ export default class ReactThreeVisor extends React.Component {
     // Scene
     this.scene = new THREE.Scene();
     // this.scene.background = new THREE.Color(this.props.backgroundColor);
-    this.scene.background = new THREE.Color(0xfdfdfd);
+    // this.scene.background = new THREE.Color(0xfdfdfd);
     this.scene.fog = new THREE.Fog(0xa0a0a0, 200, 1000);
 
     // Light
@@ -286,13 +286,13 @@ export default class ReactThreeVisor extends React.Component {
     //   );
     // }
 
+    this.renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true });
+    this.renderer.setClearColor(0x000000, 0);
     // Renderer
     if (this.props.pixelate) {
-      this.renderer = new THREE.WebGLRenderer({ antialias: false });
       this.renderer.setPixelRatio(this.props.pixelate);
       this.renderer.domElement.style.cssText = 'image-rendering:crisp-edges;image-rendering:pixelated;';
     } else {
-      this.renderer = new THREE.WebGLRenderer({ antialias: true });
       this.renderer.setPixelRatio(window.devicePixelRatio);
     }
     // this.renderer.setSize(window.innerWidth, window.innerHeight);
