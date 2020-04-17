@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/dl-fbx/static/css/main.20efab1b.chunk.css",
-    "main.js": "/dl-fbx/static/js/main.3963c866.chunk.js",
-    "main.js.map": "/dl-fbx/static/js/main.3963c866.chunk.js.map",
+    "main.js": "/dl-fbx/static/js/main.d9762696.chunk.js",
+    "main.js.map": "/dl-fbx/static/js/main.d9762696.chunk.js.map",
     "runtime-main.js": "/dl-fbx/static/js/runtime-main.025d5a09.js",
     "runtime-main.js.map": "/dl-fbx/static/js/runtime-main.025d5a09.js.map",
     "static/js/2.9893459b.chunk.js": "/dl-fbx/static/js/2.9893459b.chunk.js",
     "static/js/2.9893459b.chunk.js.map": "/dl-fbx/static/js/2.9893459b.chunk.js.map",
     "index.html": "/dl-fbx/index.html",
-    "precache-manifest.e7a1b5bd8cdd5fb05364f8dc361c3090.js": "/dl-fbx/precache-manifest.e7a1b5bd8cdd5fb05364f8dc361c3090.js",
+    "precache-manifest.b2e9ef7bad4b3b98302b01a71b3e10b3.js": "/dl-fbx/precache-manifest.b2e9ef7bad4b3b98302b01a71b3e10b3.js",
     "service-worker.js": "/dl-fbx/service-worker.js",
     "static/css/main.20efab1b.chunk.css.map": "/dl-fbx/static/css/main.20efab1b.chunk.css.map"
   },
@@ -16,6 +16,6 @@
     "static/js/runtime-main.025d5a09.js",
     "static/js/2.9893459b.chunk.js",
     "static/css/main.20efab1b.chunk.css",
-    "static/js/main.3963c866.chunk.js"
+    "static/js/main.d9762696.chunk.js"
   ]
 }
