@@ -21,7 +21,9 @@ const cameraPositions = {
   h0010001_02: { x: 2, y: 0, z: 0 },
   h0040101: { x: 1, y: 0.5, z: 4 },
   r0070401: { x: 30, y: 30, z: 100 },
-  r0080401: { x: 1, y: 2, z: 5 }
+  r0080401: { x: 1, y: 2, z: 5 },
+  d210078_01: { x: 3, y: 3, z: 20 },
+  d210114_01: { x: 3, y: 3, z: 20 }
 };
 const controlsPositions = {
   c: { x: 0, y: 0.5, z: 0 },
@@ -35,7 +37,9 @@ const controlsPositions = {
 
   h0010001_02: { x: 0, y: 3, z: 0 },
   r0070401: { x: 0, y: 20, z: 0 },
-  r0080401: { x: 0, y: 2, z: 0 }
+  r0080401: { x: 0, y: 2, z: 0 },
+  d210078_01: { x: 0, y: 3, z: 0 },
+  d210114_01: { x: 0, y: 3, z: 0 }
 };
 const faceOffsets = {
   face1: { x: 2, y: 1 },
@@ -48,6 +52,9 @@ const faceOffsets = {
   face8: { x: 2, y: -1 },
   face9: { x: 3, y: -1 },
 }
+const textureOverride = {
+  r0060401: 'd210078_01/d210078_01.png'
+}
 class Model extends React.Component {
   constructor(props) {
     super(props);
@@ -57,18 +64,29 @@ class Model extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
   updateModelState() {
-    let asset = this.props.match.params.asset;
+    const parts = this.props.match.params.asset.split('+');
+    console.log(parts);
+    const asset = parts[0];
     this.setState({
       asset: asset,
       model: `${fbxSource}/fbx/${asset}/${asset}.fbx`,
       texture: `${fbxSource}/fbx/${asset}/${asset}.png`,
     });
-    if (asset[0] === 'w' && asset[9] === '2') {
-      let texture_asset = asset.substring(0, 9) + '1';
-      this.setState({ texture: `${fbxSource}/fbx/${asset}/${texture_asset}.png` });
-    }
-    if (asset[0] === 'r') {
-      this.setState({ texture: `${fbxSource}/fbx/${asset}/${asset}_01.png` });
+    if (parts.length > 2) {
+      this.setState({ texture: `${fbxSource}/fbx/${parts[1]}/${parts[2]}.png` });
+    } else if (parts.length > 1) {
+      this.setState({ texture: `${fbxSource}/fbx/${asset}/${parts[1]}.png` });
+    } else {
+      if (asset[0] === 'w' && asset[9] === '2') {
+        let texture_asset = asset.substring(0, 9) + '1';
+        this.setState({ texture: `${fbxSource}/fbx/${asset}/${texture_asset}.png` });
+      }
+      if (asset[0] === 'r') {
+        this.setState({ texture: `${fbxSource}/fbx/${asset}/${asset}_01.png` });
+      }
+      if (textureOverride[asset]) {
+        this.setState({ texture: `${fbxSource}/fbx/${textureOverride[asset]}` });
+      }
     }
   }
   componentDidMount() {
@@ -98,6 +116,7 @@ class Model extends React.Component {
     };
     const type = this.state.asset[0];
     let cameraPosition = cameraPositions[type];
+    console.log(cameraPositions[this.state.asset]);
     if (cameraPositions[this.state.asset]) {
       cameraPosition = cameraPositions[this.state.asset];
     }
