@@ -57,7 +57,8 @@ if __name__ == '__main__':
     fbx_index = {
         'c': {},
         'd': {},
-        'w': {}
+        'w': {},
+        'other': []
     }
 
     idx_dir = sys.argv[1] if len(sys.argv) > 1 else './public/fbx/'
@@ -98,5 +99,7 @@ if __name__ == '__main__':
                         fbx_index[d[0]][m]['ex'] = d
                     except KeyError:
                         fbx_index[d[0]][d] = {'name': '???'}
+            else:
+                fbx_index['other'].append(d)
     with open('src/index.json', 'w') as f:
         f.write(json.dumps(fbx_index))

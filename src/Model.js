@@ -9,12 +9,20 @@ import { fbxSource } from "./App";
 const cameraPositions = {
   c: { x: 0, y: 0.5, z: 1.5 },
   d: { x: 3, y: 0.5, z: 6 },
-  w: { x: 2, y: 0, z: 0 }
+  w: { x: 2, y: 0, z: 0 },
+  b: { x: 1, y: 0.5, z: 6 },
+  r: { x: 3, y: 3, z: 20 },
+  r0070401: { x: 30, y: 30, z: 100 },
+  r0080401: { x: 1, y: 2, z: 5 }
 };
 const controlsPositions = {
   c: { x: 0, y: 0.5, z: 0 },
   d: { x: 0, y: 1, z: 0 },
-  w: { x: 0, y: 0, z: 0 }
+  w: { x: 0, y: 0, z: 0 },
+  b: { x: 0, y: 0.5, z: 0 },
+  r: { x: 0, y: 3, z: 0 },
+  r0070401: { x: 0, y: 20, z: 0 },
+  r0080401: { x: 0, y: 2, z: 0 }
 };
 const faceOffsets = {
   face1: { x: 2, y: 1 },
@@ -46,38 +54,9 @@ class Model extends React.Component {
       let texture_asset = asset.substring(0, 9) + '1';
       this.setState({ texture: `${fbxSource}/fbx/${asset}/${texture_asset}.png` });
     }
-    // try {
-    //   this.setState({ model: `${fbxSource}/fbx/${asset}/${asset}.fbx` });
-    // } catch (e) { }
-    // try {
-    //   this.setState({ texture: `${fbxSource}/fbx/${asset}/${asset}.png` });
-    // } catch (e) {
-    //   if (asset.length > 10) {
-    //     let texture_asset = asset.substring(0, 10);
-    //     try {
-    //       this.setState({
-    //         texture: require(`./fbx/${texture_asset}/${texture_asset}.png`)
-    //       });
-    //     } catch (e) { }
-    //   }
-    //   if (asset[0] === 'w') {
-    //     try {
-    //       let texture_asset = asset.substring(0, 9) + '1';
-    //       this.setState({
-    //         texture: require(`./fbx/${asset}/${texture_asset}.png`)
-    //       });
-    //     } catch (e) { }
-    //   }
-    // }
-    // if (fbxIdx[asset.substring(0, 1)][asset].ex !== null) {
-    //   const ex = fbxIdx[asset.substring(0, 1)][asset].ex;
-    //   try {
-    //     this.setState({ ex: require(`./fbx/${ex}/${ex}.fbx`) });
-    //   } catch (e) { }
-    //   try {
-    //     this.setState({ exTexture: require(`./fbx/${ex}/${ex}.png`) });
-    //   } catch (e) { }
-    // }
+    if (asset[0] === 'r') {
+      this.setState({ texture: `${fbxSource}/fbx/${asset}/${asset}_01.png` });
+    }
   }
   componentDidMount() {
     this.updateModelState();
@@ -106,7 +85,13 @@ class Model extends React.Component {
     };
     const type = this.state.asset[0];
     let cameraPosition = cameraPositions[type];
+    if (cameraPositions[this.state.asset]) {
+      cameraPosition = cameraPositions[this.state.asset];
+    }
     let controlsPosition = controlsPositions[type];
+    if (controlsPositions[this.state.asset]) {
+      controlsPosition = controlsPositions[this.state.asset];
+    }
     let rotation = {
       x: 0,
       y: 0,
