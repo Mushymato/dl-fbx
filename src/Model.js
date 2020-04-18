@@ -54,7 +54,7 @@ const faceOffsets = {
 }
 const textureOverride = {
   r0060401: 'd210078_01/d210078_01.png',
-  o0090401: 'd210078_01/d210078_01.png'
+  o0090401: 'r0060401/r0060401_02.png'
 }
 class Model extends React.Component {
   constructor(props) {
