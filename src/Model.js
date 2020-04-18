@@ -71,7 +71,7 @@ class Model extends React.Component {
     this.setState({
       asset: asset,
       model: `${fbxSource}/fbx/${asset}/${asset}.fbx`,
-      texture: `${fbxSource}/fbx/${asset}/${asset}.png`,
+      texture: null,
     });
     if (parts.length > 2) {
       this.setState({ texture: `${fbxSource}/fbx/${parts[1]}/${parts[2]}.png` });

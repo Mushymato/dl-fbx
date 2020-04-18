@@ -152,11 +152,30 @@ export default class ReactThreeVisor extends React.Component {
           return newMaterial;
         }
       }
+      const convertMaterial = (materials) => {
+        if (Array.isArray(materials)) {
+          return materials.map((m) => {
+            return new THREE.MeshBasicMaterial({
+              map: m.map,
+              skinning: true,
+              wireframe: Boolean(this.props.wireframe)
+            });
+          });
+        } else {
+          return new THREE.MeshBasicMaterial({
+            map: materials.map,
+            skinning: true,
+            wireframe: Boolean(this.props.wireframe)
+          });
+        }
+      }
       const faceOffset = this.props.faceOffset;
       object.traverse(function (child) {
         if (child.isMesh && child.name !== 'simpleBodyAll') {
           if (material !== null) {
             child.material = applyMaterial(child.material, material);
+          } else {
+            child.material = convertMaterial(child.material);
           }
           child.castShadow = false;
           child.receiveShadow = false;
