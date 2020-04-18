@@ -71,7 +71,7 @@ class Model extends React.Component {
     this.setState({
       asset: asset,
       model: `${fbxSource}/fbx/${asset}/${asset}.fbx`,
-      texture: null,
+      texture: `${fbxSource}/fbx/${asset}/${asset}.png`,
     });
     if (parts.length > 2) {
       this.setState({ texture: `${fbxSource}/fbx/${parts[1]}/${parts[2]}.png` });
@@ -84,6 +84,9 @@ class Model extends React.Component {
       }
       if (asset[0] === 'r') {
         this.setState({ texture: `${fbxSource}/fbx/${asset}/${asset}_01.png` });
+      }
+      if (asset[asset.length - 1] === 'h') {
+        this.setState({ texture: null });
       }
       if (textureOverride[asset]) {
         this.setState({ texture: `${fbxSource}/fbx/${textureOverride[asset]}` });
