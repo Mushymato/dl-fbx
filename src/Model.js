@@ -13,7 +13,7 @@ const cameraPositions = {
   b: { x: 1, y: 0.5, z: 6 },
   e: { x: 1, y: 1, z: 4 },
   h: { x: 1, y: 0.5, z: 3 },
-  o: { x: 0, y: 0.5, z: 1.5 },
+  o: { x: 0, y: 0.5, z: 8 },
   r: { x: 3, y: 3, z: 20 },
 
   c100034_01: { x: 0, y: 0.5, z: 1.75 },
@@ -53,7 +53,8 @@ const faceOffsets = {
   face9: { x: 3, y: -1 },
 }
 const textureOverride = {
-  r0060401: 'd210078_01/d210078_01.png'
+  r0060401: 'd210078_01/d210078_01.png',
+  o0090401: 'd210078_01/d210078_01.png'
 }
 class Model extends React.Component {
   constructor(props) {
