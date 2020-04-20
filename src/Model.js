@@ -80,7 +80,7 @@ class Model extends React.Component {
     } else {
       if (asset[0] === 'w' && asset[9] === '2') {
         let texture_asset = asset.substring(0, 9) + '1';
-        this.setState({ texture: `${fbxSource}/fbx/${asset}/${texture_asset}.png` });
+        this.setState({ texture: `${fbxSource}/fbx/${texture_asset}/${texture_asset}.png` });
       }
       if (asset[0] === 'r') {
         this.setState({ texture: `${fbxSource}/fbx/${asset}/${asset}_01.png` });
