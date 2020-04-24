@@ -23,7 +23,9 @@ const cameraPositions = {
   r0070401: { x: 30, y: 30, z: 100 },
   r0080401: { x: 1, y: 2, z: 5 },
   d210078_01: { x: 3, y: 3, z: 20 },
-  d210114_01: { x: 3, y: 3, z: 20 }
+  d210114_01: { x: 3, y: 3, z: 20 },
+
+  smith: { x: 1, y: 1, z: 2 }
 };
 const controlsPositions = {
   c: { x: 0, y: 0.5, z: 0 },
@@ -39,7 +41,9 @@ const controlsPositions = {
   r0070401: { x: 0, y: 20, z: 0 },
   r0080401: { x: 0, y: 2, z: 0 },
   d210078_01: { x: 0, y: 3, z: 0 },
-  d210114_01: { x: 0, y: 3, z: 0 }
+  d210114_01: { x: 0, y: 3, z: 0 },
+
+  smith: { x: 0, y: 0.5, z: 0 }
 };
 const faceOffsets = {
   face1: { x: 2, y: 1 },
@@ -54,7 +58,8 @@ const faceOffsets = {
 }
 const textureOverride = {
   r0060401: 'd210078_01/d210078_01.png',
-  o0090401: 'r0060401/r0060401_02.png'
+  o0090401: 'r0060401/r0060401_02.png',
+  smith: null
 }
 class Model extends React.Component {
   constructor(props) {
