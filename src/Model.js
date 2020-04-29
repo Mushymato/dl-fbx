@@ -71,7 +71,6 @@ class Model extends React.Component {
   }
   updateModelState() {
     const parts = this.props.match.params.asset.split('+');
-    console.log(parts);
     const asset = parts[0];
     this.setState({
       asset: asset,
@@ -125,7 +124,6 @@ class Model extends React.Component {
     };
     const type = this.state.asset[0];
     let cameraPosition = cameraPositions[type];
-    console.log(cameraPositions[this.state.asset]);
     if (cameraPositions[this.state.asset]) {
       cameraPosition = cameraPositions[this.state.asset];
     }
