@@ -12,10 +12,10 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/">
             <ul>
-              <li style={{ float: "left", width: "10%" }}><Link to={`/character`}>character</Link></li>
-              <li style={{ float: "left", width: "10%" }}><Link to={`/dragon`}>dragon</Link></li>
-              <li style={{ float: "left", width: "10%" }}><Link to={`/weapon`}>weapon</Link></li>
-              <li style={{ float: "left", width: "10%" }}><Link to={`/other`}>other</Link></li>
+              <li><Link to={`/character`}>character</Link></li>
+              <li><Link to={`/dragon`}>dragon</Link></li>
+              <li><Link to={`/weapon`}>weapon</Link></li>
+              <li><Link to={`/other`}>other</Link></li>
             </ul>
           </Route>
           <Route exact path="/character" component={CharacterIndex} />
