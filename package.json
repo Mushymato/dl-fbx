@@ -14,7 +14,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build",
+    "predeploy": "python make_index.py && npm run build",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
